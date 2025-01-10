@@ -30,3 +30,6 @@ config.json
 *.gz
 *.bz2
 *.7z
+
+#downloaded files
+images/

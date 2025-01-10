@@ -14,3 +14,7 @@ Install the required packages:
 
 ```sh
 pip install beautifulsoup4 requests
+
+
+## Usage
+python main.py --url "https://example.com/product" --class "custom-class"
