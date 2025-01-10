@@ -4,7 +4,7 @@ from parse import FindImages
 from image import DownloadImages
 from bs4 import BeautifulSoup
 
-classes = ["product-image", "product"]
+classes = ["product-image", "product-images", "product"]
 images = []
 
 #Get arguments
