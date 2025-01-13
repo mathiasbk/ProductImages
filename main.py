@@ -14,6 +14,11 @@ parser.add_argument("--class", help="HTML classes")
 
 args = parser.parse_args()
 
+#Check arguments
+if not args.url:
+    print("No URL specified")
+    sys.exit()
+
 
 # URL to the productpage
 url = args.url
