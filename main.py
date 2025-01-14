@@ -33,7 +33,7 @@ if response.status_code == 200:
     soup = BeautifulSoup(response.content, 'html.parser')
 
     # Find images
-    images = FindImages(soup, classes)
+    images = FindImages(soup, classes, url)
 
     #Download images
     DownloadImages(images)
