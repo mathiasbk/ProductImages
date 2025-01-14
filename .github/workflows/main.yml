@@ -1,42 +1,25 @@
-name: PyInstaller Build
+name: Package Application with Pyinstaller
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-    # Sjekk ut repository
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    # Bygg Python-miljø med ønsket versjon
-    - name: Setup Python
-      uses: actions/setup-python@v4
+    - name: Package Application
+      uses: JackMcKew/pyinstaller-action-windows@main
       with:
-        python-version: "3.9"
+        path: src
 
-    # Installer avhengigheter
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    # Bygg eksekverbar med PyInstaller
-    - name: PyInstaller Action
-      uses: Martin005/pyinstaller-action@v1.2.0
+    - uses: actions/upload-artifact@v4
       with:
-        spec: main.py  # Path to your Python script
-        requirements: requirements.txt  # Path to requirements.txt
-        options: --onefile --console  # PyInstaller options
-        python_ver: 3.9  # Specify Python version
-        python_arch: x64  # Use 64-bit architecture
-        exe_path: ./dist  # Where to store the executable
-        upload_exe_with_name: my_application  # Name of the artifact to upload
+        name: name-of-artifact
+        path: src/dist/windows
