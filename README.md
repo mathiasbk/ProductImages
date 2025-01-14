@@ -13,14 +13,14 @@ A simple Python script that extracts all prodductimages from a weshop.
 Install the required packages:
 
 ```sh
-pip install beautifulsoup4 requests
+pip install beautifulsoup4 requests pillow
 ```
 
 ## Usage
-With custom class
+With custom class and PNG format.
 
 ```sh
-python main.py --url "https://example.com/product" --class "custom-class"
+python main.py --url "https://example.com/product" --class "custom-class" --format "png"
 ```
 
 ## TODO

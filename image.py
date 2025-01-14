@@ -1,7 +1,9 @@
 import os, requests
 from urllib.parse import urlsplit
+from PIL import Image
 def DownloadImages(images):
 
+    downloaded_images = []
     # Create a directory for the images
     if not os.path.exists("images"):
         os.makedirs("images")
@@ -35,6 +37,32 @@ def DownloadImages(images):
             #save the image
             with open(f"images/{filename}", 'wb') as file:
                 file.write(response.content)
+
+            downloaded_images.append(file_path)
         except requests.exceptions.RequestException as e:
             print("Error downloading image: ", e)
             continue
+
+    return downloaded_images
+
+#Change the fileformat
+def ChangeFiletype(images, format):
+    for img in images:
+        
+        #If format is the same, ignore it
+        if format == os.path.splitext(os.path.basename(img))[1][1:]:
+            continue
+
+        old_file = img
+        f, e = os.path.splitext(os.path.basename(img))
+        output_path = os.path.join("images", f + "." + format)
+        #url_path = urlsplit(img).path
+        
+        #Open the image
+        image = Image.open(img)
+        
+        #Save the new file with correct format
+        image.save(output_path, format = format.upper())
+
+        #Delete the old image with wrong format
+        os.remove(old_file)

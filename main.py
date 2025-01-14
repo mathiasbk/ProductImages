@@ -1,8 +1,8 @@
-
 import os, requests, argparse, sys
 from parse import FindImages
-from image import DownloadImages
+from image import DownloadImages, ChangeFiletype
 from bs4 import BeautifulSoup
+
 
 classes = ["product-image", "product-images", "product"]
 images = []
@@ -11,14 +11,18 @@ images = []
 parser = argparse.ArgumentParser()
 parser.add_argument("--url", help="URl to the productpage")
 parser.add_argument("--class", help="HTML classes")
+parser.add_argument("--format", help="Fileformat")
 
 args = parser.parse_args()
-
+downloaded_images = []
+format = None
 #Check arguments
 if not args.url:
     print("No URL specified")
     sys.exit()
 
+if args.format:
+    format = args.format
 
 # URL to the productpage
 url = args.url
@@ -36,7 +40,11 @@ if response.status_code == 200:
     images = FindImages(soup, classes, url)
 
     #Download images
-    DownloadImages(images)
+    downloaded_images = DownloadImages(images)
+
+    #Convert images to desired format
+    if format:
+        ChangeFiletype(downloaded_images, format)
 
     #print("Images found: ", images)
 else:
