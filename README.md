@@ -22,6 +22,3 @@ With custom class and PNG format.
 ```sh
 python main.py --url "https://example.com/product" --class "custom-class" --format "png"
 ```
-
-## TODO
-- Added the possibility to convert the images to desired fileformat
