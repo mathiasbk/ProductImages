@@ -1,14 +1,16 @@
 import os, requests
 from urllib.parse import urlsplit
 from PIL import Image
-def DownloadImages(images):
+def DownloadImages(images, filename="none"):
 
+    original_filename = filename
     downloaded_images = []
-
+    
     # Create a directory for the images
     if not os.path.exists("images"):
         os.makedirs("images")
-
+    
+    imgnum = 0
     for img in images:
 
         print("Downloading image: ", img)
@@ -18,19 +20,24 @@ def DownloadImages(images):
             response = requests.get(img)
             response.raise_for_status()
 
-            # Get the filename from the URL
-            filename = os.path.basename(img)  # Ekstraher kun filnavnet fra URL
-
-            # Get filetype from the response headers
-            extension = response.headers.get("Content-Type", "").split("/")[-1]
-
             # Generate filename
-            filename = os.path.basename(urlsplit(img).path)
-            if not filename:
-                filename = "downloaded_image"
-            if not filename.endswith(extension):
-                filename += "."+extension
-            print("Filename: ", filename)
+            # The user has not specified a filename
+            if original_filename is None:
+
+                # Get filetype from the response headers
+                extension = response.headers.get("Content-Type", "").split("/")[-1]
+
+                filename = os.path.basename(urlsplit(img).path)
+
+                if not filename:
+                    filename = "downloaded_image"
+
+                if not filename.endswith(extension):
+                    filename = f"{filename}.{extension}"
+            #The user has specified a filename
+            else:
+                 base, _ = os.path.splitext(original_filename)
+                 filename = f"{base}_{imgnum}.{extension}"
 
             # Full path to the file
             file_path = os.path.join("images", filename)
@@ -43,6 +50,8 @@ def DownloadImages(images):
         except requests.exceptions.RequestException as e:
             print("Error downloading image: ", e)
             continue
+
+        imgnum += 1
 
     return downloaded_images
 

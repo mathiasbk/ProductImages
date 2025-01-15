@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--url", help="URl to the productpage")
 parser.add_argument("--class", help="HTML classes")
 parser.add_argument("--format", help="Fileformat")
+parser.add_argument("--filename", help="Filename")
 
 args = parser.parse_args()
 downloaded_images = []
@@ -40,7 +41,7 @@ if response.status_code == 200:
     images = FindImages(soup, classes, url)
 
     #Download images
-    downloaded_images = DownloadImages(images)
+    downloaded_images = DownloadImages(images, args.filename)
 
     #Convert images to desired format
     if format:
