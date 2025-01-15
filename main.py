@@ -10,7 +10,7 @@ images = []
 #Get arguments
 parser = argparse.ArgumentParser()
 parser.add_argument("--url", help="URl to the productpage")
-parser.add_argument("--class", help="HTML classes")
+parser.add_argument("--classes", help="HTML classes")
 parser.add_argument("--format", help="Fileformat")
 parser.add_argument("--filename", help="Filename")
 
@@ -24,6 +24,11 @@ if not args.url:
 
 if args.format:
     format = args.format
+
+#add classes to array
+if args.classes:
+    classes.append(args.classes)
+
 
 # URL to the productpage
 url = args.url
