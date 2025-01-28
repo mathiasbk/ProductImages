@@ -1,5 +1,31 @@
+import requests, os
 from urllib.parse import urljoin
+from bs4 import BeautifulSoup
+from image import DownloadImages, ChangeFiletype
 
+def ParseProduct(filename, url, classes, format):
+    # Get pagecontent
+    response = requests.get(url)
+
+    if response.status_code == 200:
+
+        # Parse HTML with BeautifulSoup
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # Find images
+        images = FindImages(soup, classes, url)
+
+        #Download images
+        downloaded_images = DownloadImages(images, filename)
+
+        #Convert images to desired format
+        if format:
+            ChangeFiletype(downloaded_images, format)
+
+        #print("Images found: ", images)
+    else:
+        print("Error gettig page:", response.status_code)
+    
 def FindImages(soup, classes, base_url):
     images = set()
 
