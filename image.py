@@ -20,11 +20,9 @@ def DownloadImages(images, filename="none"):
             response = requests.get(img)
             response.raise_for_status()
 
-            # Generate filename
             # The user has not specified a filename
             if original_filename is None:
 
-                # Get filetype from the response headers
                 extension = response.headers.get("Content-Type", "").split("/")[-1]
 
                 filename = os.path.basename(urlsplit(img).path)
@@ -34,12 +32,17 @@ def DownloadImages(images, filename="none"):
 
                 if not filename.endswith(extension):
                     filename = f"{filename}.{extension}"
+
             #The user has specified a filename
             else:
-                 base, _ = os.path.splitext(original_filename)
-                 filename = f"{base}_{imgnum}.{extension}"
+                base, ext = os.path.splitext(original_filename)
+                if not ext:
+                    extension = response.headers.get("Content-Type", "").split("/")[-1] or "jpeg"
+                else:
+                    extension = ext.lstrip('.')
+            
+                filename = f"{base}_{imgnum}.{extension}"
 
-            # Full path to the file
             file_path = os.path.join("images", filename)
 
             #save the image
