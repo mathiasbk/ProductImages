@@ -20,7 +20,7 @@ args = parser.parse_args()
 downloaded_images = []
 format = None
 #Check arguments
-if not args.url:
+if not args.url and not args.productlist:
     print("No URL specified")
     sys.exit()
 
