@@ -81,7 +81,7 @@ def ChangeFiletype(images, format):
         image = Image.open(img)
         
         #Convert to RGB if we want to save as jpeg
-        if pil_format == "JPEG" and image.mode == "RGBA":
+        if pil_format == "JPEG" and image.mode != "RGB":
             image = image.convert("RGB")
 
         #Save the new file with correct format
