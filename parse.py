@@ -27,7 +27,7 @@ def ParseProduct(filename, url, classes, format):
         print("Error gettig page:", response.status_code)
     
 def FindImages(soup, classes, base_url):
-    images = set()
+    images = []
 
     for c in classes:
 
@@ -36,10 +36,9 @@ def FindImages(soup, classes, base_url):
 
         for img in img_tags:
             src = img.get('src')
-            #images.append(src)
             if src:
                 absolute_url = urljoin(base_url, src)
-                images.add(absolute_url)
+                images.append(absolute_url)
 
         # Find all images with parent class matching the classes array
         parent_tags = soup.find_all(class_=c)
@@ -49,5 +48,5 @@ def FindImages(soup, classes, base_url):
                 src = img.get('src')
                 if src:
                     absolute_url = urljoin(base_url, src)
-                    images.add(absolute_url)
-    return list(images)
+                    images.append(absolute_url)
+    return images
